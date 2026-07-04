@@ -1,23 +1,20 @@
-/*global QUnit*/
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/App",
-	"./pages/home"
-], function (opaTest) {
-	"use strict";
+    "sap/ui/test/opaQunit",
+    "home/test/integration/arrangements/Startup",
+    "home/test/integration/pages/App",
+    "home/test/integration/pages/home"
+], function (opaTest, Startup) {
+    "use strict";
 
-	QUnit.module("Navigation Journey");
+    QUnit.module("Navigation Home");
 
-	opaTest("Should see the initial page of the app", function (Given, When, Then) {
-		// Arrangements
-		Given.iStartMyApp();
+    opaTest("L'application Home doit s'ouvrir correctement pour un planificateur", function (Given, When, Then) {
+        Given.iStartMyApp();
 
-		// Assertions
-		Then.onTheAppPage.iShouldSeeTheApp();
-      	Then.onTheViewPage.iShouldSeeThePageView();
+        Then.onTheAppPage.iShouldSeeTheApp();
+        Then.onTheHomePage.iShouldSeeTheHomePage();
+        Then.onTheHomePage.iShouldSeePlannerDashboardAccess();
 
-		//Cleanup
-		Then.iTeardownMyApp();
-	});
+        Then.iTeardownMyApp();
+    });
 });

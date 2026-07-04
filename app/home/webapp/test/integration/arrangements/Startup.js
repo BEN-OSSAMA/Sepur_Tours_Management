@@ -1,25 +1,37 @@
 sap.ui.define([
-	"sap/ui/test/Opa5"
+    "sap/ui/test/Opa5"
 ], function (Opa5) {
-	"use strict";
+    "use strict";
 
-	return Opa5.extend("integration.arrangements.Startup", {
+    return Opa5.extend("home.test.integration.arrangements.Startup", {
+        iStartMyApp: function () {
+            var oUser = {
+                ID: "user-planner",
+                email: "planner@sepur.com",
+                username: "planner",
+                fullName: "Planificateur SEPUR",
+                role: "PLANIFICATEUR",
+                active: true
+            };
 
-		iStartMyApp: function (oOptionsParameter) {
-			var oOptions = oOptionsParameter || {};
+            localStorage.setItem("currentUser", JSON.stringify(oUser));
+            localStorage.setItem("sepurUser", JSON.stringify(oUser));
+            localStorage.setItem("sepur.user", JSON.stringify(oUser));
 
-			// start the app with a minimal delay to make tests fast but still async to discover basic timing issues
-			oOptions.delay = oOptions.delay || 50;
+            return this.iStartMyUIComponent({
+                componentConfig: {
+                    name: "home"
+                },
+                hash: ""
+            });
+        },
 
-			// start the app UI component
-			this.iStartMyUIComponent({
-				componentConfig: {
-					name: "sepur.home",
-					async: true
-				},
-				hash: oOptions.hash,
-				autoWait: oOptions.autoWait
-			});
-		}
-	});
+        iTeardownMyApp: function () {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("sepurUser");
+            localStorage.removeItem("sepur.user");
+
+            return this.iTeardownMyUIComponent();
+        }
+    });
 });
